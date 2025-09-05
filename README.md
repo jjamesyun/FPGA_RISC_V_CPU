@@ -1,36 +1,74 @@
 # RISC-V CPU Implementation on DE1-SoC FPGA
 
-This project aims to implement a RISC-V CPU on a DE1-SoC FPGA board, utilizing Verilog for hardware description. The primary objective is to design and implement a 5-stage RISC-V pipeline, operating at a frequency of 50 MHz. The pipeline consists of the following stages:
+This project implements a **5-stage RISC-V pipeline CPU** on a DE1-SoC FPGA using Verilog. The design supports the **RV32I base instruction set**, running at 50 MHz on the target board. The project emphasizes fundamental computer architecture principles, modular Verilog design, and thorough testbench verification.  
 
-1. Instruction Fetch (IF)
-2. Instruction Decode (ID)
-3. Execute (EX)
-4. Memory Access (MEM)
-5. Write-back (WB)
+---
 
-## Arithmetic Logic Unit (ALU) Design and Verification
+## Features
 
-A critical component of the CPU is the Arithmetic Logic Unit (ALU), responsible for executing arithmetic and logical operations. The ALU will be designed using Verilog and thoroughly tested and simulated using ModelSim, a powerful HDL simulation tool. Adherence to the RISC-V ISA standards will be strictly maintained to ensure compatibility and correctness.
+- **5-Stage Pipeline**: Instruction Fetch (IF), Instruction Decode (ID), Execute (EX), Memory Access (MEM), Write-Back (WB)  
+- **Instruction Set**: Supports a subset of RV32I instructions  
+- **Modular Design**: Each major CPU component is implemented as an individual Verilog module for clarity and reusability  
+- **Verification**: Comprehensive testbenches developed for critical modules (ALU, Control Unit, Register File, Data Memory) using ModelSim  
 
-## Memory-Mapped I/O Subsystems
+---
 
-To enhance the functionality and flexibility of the CPU, memory-mapped I/O subsystems will be implemented. This allows for the integration of additional peripherals and enables efficient communication between the CPU and external devices.
+## Pipeline Overview
 
-## UART Communication with Arduino
+IF  –>  ID  –>  EX  –>  MEM  –>  WB
+|        |       |       |       |
+|        |       |       |       └─ Writes results back to Register File
+|        |       |       └─ Reads/Writes Data Memory
+|        |       └─ ALU executes arithmetic/logic ops
+|        └─ Control Unit generates control signals
+└─ Program Counter fetches next instruction
 
-To demonstrate the CPU's capability to interact with external devices, an Arduino will be interfaced with the DE1-SoC FPGA board using UART (Universal Asynchronous Receiver/Transmitter) communication protocol. This integration showcases the potential for expanding the system's capabilities and highlights the practical applications of the RISC-V CPU.
+---
 
-## Learning Outcomes and Portfolio Showcase
+## Module Hierarchy
 
-This project serves as a valuable learning experience, encompassing various aspects of computer architecture, digital design, and hardware description languages. By successfully implementing a RISC-V CPU on an FPGA, I aim to demonstrate my proficiency in:
+RISC-V CPU
+│
+├── program_counter.v       # Tracks instruction flow
+├── control_unit.v          # Decodes instructions, generates control signals
+├── alu.v                   # Arithmetic and logic operations
+│   └── alu_testbench.v
+├── register_file.v         # 32 general-purpose registers (2R/1W ports)
+│   └── register_file_testbench.v
+├── data_memory.v           # Read/write data memory
+│   └── data_memory_tb.v
+└── control_unit_testbench.v
 
-- RISC-V ISA and its implementation
-- Verilog hardware description language
-- FPGA development using the DE1-SoC board
-- ModelSim simulation and verification
-- Memory-mapped I/O subsystems
-- UART communication and interfacing with external devices
+---
 
-The project will be a significant highlight in my portfolio, showcasing my ability to design, implement, and verify complex digital systems. It demonstrates my understanding of computer architecture principles and my skills in utilizing industry-standard tools and methodologies.
+## Tools & Workflow
+- **Verilog HDL** for hardware description  
+- **ModelSim** for functional simulation and verification  
+- **Quartus Prime** for FPGA synthesis and implementation on DE1-SoC  
 
-I invite you to explore the code repository, where you will find detailed documentation, source code, and simulation results. Contributions, suggestions, and feedback are welcomed as I continue to enhance and refine this RISC-V CPU implementation.
+---
+
+## Learning Outcomes
+Through this project, I gained hands-on experience with:  
+
+- Pipelined CPU design following the RISC-V ISA  
+- Writing and debugging Verilog for hardware modules  
+- Developing **testbenches** to achieve functional correctness  
+- FPGA synthesis and hardware implementation workflows  
+
+---
+
+## Future Work
+- Extend support for additional RISC-V instructions  
+- Implement pipeline hazard detection and forwarding  
+- Add memory-mapped I/O peripherals  
+- Explore UART or other interfaces for external device communication  
+
+---
+
+## Repository
+This repository contains:  
+
+- Source code for all CPU modules  
+- Testbenches for functional verification  
+- Documentation of the architecture and implementation details  
