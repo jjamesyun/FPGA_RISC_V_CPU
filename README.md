@@ -14,7 +14,7 @@ This project implements a **5-stage RISC-V pipeline CPU** on a DE1-SoC FPGA usin
 ---
 
 ## Pipeline Overview
-
+<pre>
 IF  –>  ID  –>  EX  –>  MEM  –>  WB
 |        |       |       |       |
 |        |       |       |       └─ Writes results back to Register File
@@ -22,11 +22,11 @@ IF  –>  ID  –>  EX  –>  MEM  –>  WB
 |        |       └─ ALU executes arithmetic/logic ops
 |        └─ Control Unit generates control signals
 └─ Program Counter fetches next instruction
-
+</pre>
 ---
 
 ## Module Hierarchy
-
+<pre>
 RISC-V CPU
 │
 ├── program_counter.v       # Tracks instruction flow
@@ -38,7 +38,7 @@ RISC-V CPU
 ├── data_memory.v           # Read/write data memory
 │   └── data_memory_tb.v
 └── control_unit_testbench.v
-
+</pre>
 ---
 
 ## Tools & Workflow
